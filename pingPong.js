@@ -10,46 +10,6 @@ backgroundImage.onload = function () {
 	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
-// c.fillRect(0,0,canvas.width,canvas.height)
-
-// class Sprite {
-//     constructor(position) {
-//         this.position = position
-//     }
-//     draw(){
-// 		c.fillStyle = 'green';
-//         c.clearRect(this.position.x, this.position.y, 30, 100);
-// 	}
-// }
-
-// const player1 = new Sprite({
-// 	x: 0,
-// 	y: 0,
-// });
-
-// const player2 = new Sprite({
-// 	x: canvas.width -25,
-// 	y: canvas.height -100,
-// });
-
-// function animate() {
-//     window.requestAnimationFrame(animate)
-//     c.fillRect(0, 0, canvas.width, canvas.height)
-//     player1.draw()
-//     player2.draw()
-// }
-
-// player1.draw()
-// player2.draw()
-
-// animate()
-
-// let canvas = document.querySelector('canvas');
-// let c = canvas.getContext('2d');
-
-// canvas.width = 1050;
-// canvas.height = 800;
-
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 class Sprite {
