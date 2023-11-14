@@ -1,0 +1,18 @@
+body {
+    background-image: url('atariLogo.jpg');
+    background-size: 100px;
+    background-repeat: repeat;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#board {
+    border: 3px solid whitesmoke;
+    background-image: url('atarilogo2.jpg');
+    width: 400px;
+    height: 450px;
+
+}
