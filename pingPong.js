@@ -1,7 +1,5 @@
 const canvas = document.querySelector('#board');
 
-const ball = document.getElementById('ball');
-
 const c = canvas.getContext('2d');
 
 const net = {
@@ -20,6 +18,34 @@ backgroundImage.onload = function () {
 };
 
 c.fillRect(0, 0, canvas.width, canvas.height);
+
+class Ball {
+	constructor(position, radius) {
+		this.position = position;
+		this.radius = radius;
+		this.hue = 0; // Initial hue value
+	}
+
+	draw() {
+		// Update hue for the rainbow effect
+		this.hue = (this.hue + 1) % 360;
+
+		// Convert HSL to RGB
+		const color = `hsl(${this.hue}, 100%, 50%)`;
+
+		c.fillStyle = color;
+		c.beginPath();
+		c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false);
+		c.closePath();
+		c.fill();
+	}
+}
+
+
+const ball = new Ball({
+	x: canvas.width / 2,
+	y: canvas.height / 2,
+}, 5, 'black');
 
 class Sprite {
 	constructor(position) {
@@ -89,6 +115,7 @@ function animate() {
 		moveUp2();
     }
     drawnet()
+    ball.draw()
 }
 
 animate();
