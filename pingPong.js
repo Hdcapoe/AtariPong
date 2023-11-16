@@ -11,10 +11,9 @@ const net = {
 };
 
 const scoreboard = {
-  player: 0,
-  player2: 0,
+	player: 0,
+	player2: 0,
 };
-
 
 const scoreDisplayPlayer1 = document.createElement('div');
 scoreDisplayPlayer1.style.position = 'absolute';
@@ -27,8 +26,8 @@ document.body.appendChild(scoreDisplayPlayer1);
 
 const scoreDisplayPlayer2 = document.createElement('div');
 scoreDisplayPlayer2.style.position = 'absolute';
-scoreDisplayPlayer2.style.right = '50px'; 
-scoreDisplayPlayer2.style.top = '50px'; 
+scoreDisplayPlayer2.style.right = '50px';
+scoreDisplayPlayer2.style.top = '50px';
 scoreDisplayPlayer2.style.fontSize = '50px';
 scoreDisplayPlayer2.style.fontWeight = 'bold';
 scoreDisplayPlayer2.style.color = 'white';
@@ -36,6 +35,10 @@ document.body.appendChild(scoreDisplayPlayer2);
 
 const backgroundImage = new Image();
 backgroundImage.src = 'atarilogo2.jpg';
+
+const resetButton = document.getElementById('resetButton');
+
+resetButton.addEventListener('click', resetGame);
 
 backgroundImage.onload = function () {
 	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -62,8 +65,6 @@ class Ball {
 		c.closePath();
 		c.fill();
 
-		
-
 		if (
 			this.position.y - this.radius < 0 ||
 			this.position.y + this.radius > canvas.height
@@ -76,28 +77,25 @@ class Ball {
 					: canvas.height - this.radius;
 		}
 
-         if (
-      this.position.x - this.radius <= player.position.x + 15 &&
-      this.position.x + this.radius >= player.position.x &&
-      this.position.y + this.radius >= player.position.y &&
-      this.position.y - this.radius <= player.position.y + 30
-    ) {
-      this.velocity.x = -this.velocity.x;
-    }
+		if (
+			this.position.x - this.radius <= player.position.x + 15 &&
+			this.position.x + this.radius >= player.position.x &&
+			this.position.y + this.radius >= player.position.y &&
+			this.position.y - this.radius <= player.position.y + 30
+		) {
+			this.velocity.x = -this.velocity.x;
+		}
 
-    
-    if (
-      this.position.x + this.radius >= player2.position.x &&
-      this.position.x - this.radius <= player2.position.x + 15 &&
-      this.position.y + this.radius >= player2.position.y &&
-      this.position.y - this.radius <= player2.position.y + 30
-    ) {
-      this.velocity.x = -this.velocity.x;
-    }
-
+		if (
+			this.position.x + this.radius >= player2.position.x &&
+			this.position.x - this.radius <= player2.position.x + 15 &&
+			this.position.y + this.radius >= player2.position.y &&
+			this.position.y - this.radius <= player2.position.y + 30
+		) {
+			this.velocity.x = -this.velocity.x;
+		}
 	}
 }
-
 
 const ball = new Ball(
 	{
@@ -105,7 +103,7 @@ const ball = new Ball(
 		y: canvas.height / 2,
 	},
 	5,
-	{ x: 2, y: 2 } 
+	{ x: 2, y: 2 }
 );
 ('black');
 
@@ -157,130 +155,138 @@ function drawnet() {
 }
 
 function animate() {
-	window.requestAnimationFrame(animate);
-	c.clearRect(0, 0, canvas.width, canvas.height);
+    window.requestAnimationFrame(animate);
+    c.clearRect(0, 0, canvas.width, canvas.height);
 
-	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
-	player.draw();
-	player2.draw();
+    player.draw();
+    player2.draw();
 
-	if (keys.d.pressed) {
-		player.position.y = 3;
-	} else if (keys.e.pressed) {
-		player.position.y = -3;
-	}
+    if (keys.d.pressed) {
+        player.position.y = 3;
+    } else if (keys.e.pressed) {
+        player.position.y = -3;
+    }
 
-	if (keys.ArrowDown.pressed) {
-		moveDown2();
-	} else if (keys.ArrowUp.pressed) {
-		moveUp2();
-	}
+    if (keys.ArrowDown.pressed) {
+        moveDown2();
+    } else if (keys.ArrowUp.pressed) {
+        moveUp2();
+    }
 
-	ball.position.x += ball.velocity.x;
-	ball.position.y += ball.velocity.y;
+    ball.position.x += ball.velocity.x;
+    ball.position.y += ball.velocity.y;
 
-	drawnet();
+    drawnet();
     ball.draw();
-    
 
-  if (ball.position.x - ball.radius < 0) {
-    scoreboard.player2++;
-    resetBall();
-  }
+    if (ball.position.x - ball.radius < 0) {
+        scoreboard.player2++;
+        resetBall();
+    }
 
-  if (ball.position.x + ball.radius > canvas.width) {
-    scoreboard.player++;
-    resetBall();
-  }
+    if (ball.position.x + ball.radius > canvas.width) {
+        scoreboard.player++;
+        resetBall();
+    }
+    scoreDisplayPlayer1.textContent = `Player 1: ${scoreboard.player}`;
+    scoreDisplayPlayer2.textContent = `Player 2: ${scoreboard.player2}`;
 
-scoreDisplayPlayer1.textContent = `Player 1: ${scoreboard.player}`;
-  scoreDisplayPlayer2.textContent = `Player 2: ${scoreboard.player2}`;}
-
-
-function resetBall() {
-  ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
-  ball.velocity = { x: 2, y: 2 };
+    function resetBall() {
+        ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
+        ball.velocity = { x: 2, y: 2 };
+    }
 }
 
+	animate();
 
+	window.addEventListener('keydown', (event) => {
+		if (!isMoving) {
+			isMoving = true;
+			switch (event.key) {
+				case 'd':
+					moveDown(player);
+					break;
+				case 'e':
+					moveUp(player);
+					break;
+				case 'ArrowUp':
+					moveUp2(player2);
+					break;
+				case 'ArrowDown':
+					moveDown2(player2);
+					break;
+			}
+		}
+	});
 
-animate();
+	window.addEventListener('keyup', (event) => {
+		if (['e', 'd', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+			isMoving = false;
+		}
+	});
 
-window.addEventListener('keydown', (event) => {
-	if (!isMoving) {
-		isMoving = true;
-		switch (event.key) {
-			case 'd':
-				moveDown(player);
-				break;
-			case 'e':
-				moveUp(player);
-				break;
-			case 'ArrowUp':
-				moveUp2(player2);
-				break;
-			case 'ArrowDown':
-				moveDown2(player2);
-				break;
+	function moveDown(player) {
+		if (isMoving) {
+			player.position.y += 3;
+
+			if (player.position.y > canvas.height) {
+				player.position.y = -30;
+			}
+
+			setTimeout(() => moveDown(player), 16);
 		}
 	}
-});
 
-window.addEventListener('keyup', (event) => {
-	if (['e', 'd', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
-		isMoving = false;
-	}
-});
+	function moveUp(player) {
+		if (isMoving) {
+			player.position.y -= 3;
 
-function moveDown(player) {
-	if (isMoving) {
-		player.position.y += 3;
+			if (player.position.y + 30 < 0) {
+				player.position.y = canvas.height;
+			}
 
-		
-		if (player.position.y > canvas.height) {
-			player.position.y = -30;
+			setTimeout(() => moveUp(player), 16);
 		}
-
-		setTimeout(() => moveDown(player), 16);
 	}
-}
 
-function moveUp(player) {
-	if (isMoving) {
-		player.position.y -= 3;
+	function moveDown2(player2) {
+		if (isMoving) {
+			player2.position.y += 3;
 
-		
-		if (player.position.y + 30 < 0) {
-			player.position.y = canvas.height;
+			if (player2.position.y > canvas.height) {
+				player2.position.y = -30;
+			}
+
+			setTimeout(() => moveDown2(player2), 16);
 		}
-
-		setTimeout(() => moveUp(player), 16);
 	}
-}
 
+	function moveUp2(player2) {
+		if (isMoving) {
+			player2.position.y -= 3;
 
+			if (player2.position.y + 30 < 0) {
+				player2.position.y = canvas.height;
+			}
 
-function moveDown2(player2) {
-	if (isMoving) {
-		player2.position.y += 3;
-
-		if (player2.position.y > canvas.height) {
-			player2.position.y = -30;
+			setTimeout(() => moveUp2(player2), 16);
 		}
-
-		setTimeout(() => moveDown2(player2), 16);
 	}
-}
 
-function moveUp2(player2) {
-	if (isMoving) {
-		player2.position.y -= 3;
-
-		if (player2.position.y + 30 < 0) {
-			player2.position.y = canvas.height;
-		}
-
-		setTimeout(() => moveUp2(player2), 16);
+	function resetGame() {
+		scoreboard.player = 0;
+		scoreboard.player2 = 0;
 	}
-}
+
+
+let spacebarPressed = false;
+
+window.addEventListener('keydown'), (event) => {
+    if (event.key === ' ' && !spacebarPressed) {
+        spacebarPressed = true;
+        startGame();
+    }
+};
+
