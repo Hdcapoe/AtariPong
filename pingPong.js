@@ -38,28 +38,48 @@ class Ball {
 		c.closePath();
 		c.fill();
 
+		// if (
+		// 	this.position.y - this.radius < 0 ||
+		// 	this.position.y + this.radius > canvas.height
+		// ) {
+		// 	this.velocity.y = -this.velocity.y;
+		// }
+
 		if (
 			this.position.y - this.radius < 0 ||
 			this.position.y + this.radius > canvas.height
 		) {
 			this.velocity.y = -this.velocity.y;
+
+			this.position.y =
+				this.position.y < this.radius
+					? this.radius
+					: canvas.height - this.radius;
 		}
 
-		if (
-			(this.position.x - this.radius <= player.position.x + 15 &&
-				this.position.x + this.radius >= player.position.x &&
-				this.position.y + this.radius >= player.position.y &&
-				this.position.y - this.radius <= player.position.y + 30) ||
-			(this.position.x + this.radius >= player2.position.x &&
-				this.position.x - this.radius <= player2.position.x + 15 &&
-				this.position.y + this.radius >= player2.position.y &&
-				this.position.y - this.radius <= player2.position.y + 30)
-		) {
-			// Bounce on players by reversing y-velocity
-			this.velocity.y = -this.velocity.y;
-		}
+		// if (
+		// 	(this.position.x - this.radius <= player.position.x + 15 &&
+		// 		this.position.x + this.radius >= player.position.x &&
+		// 		this.position.y + this.radius >= player.position.y &&
+		// 		this.position.y - this.radius <= player.position.y + 30) ||
+		// 	(this.position.x + this.radius >= player2.position.x &&
+		// 		this.position.x - this.radius <= player2.position.x + 15 &&
+		// 		this.position.y + this.radius >= player2.position.y &&
+		// 		this.position.y - this.radius <= player2.position.y + 30)
+		// ) {
+		// 	this.velocity.y = -this.velocity.y;
+		// }
 	}
 }
+
+// const ball = new Ball(
+// 	{
+// 		x: canvas.width / 2,
+// 		y: canvas.height / 2,
+// 	},
+// 	5,
+// 	'black'
+// );
 
 const ball = new Ball(
 	{
@@ -67,8 +87,9 @@ const ball = new Ball(
 		y: canvas.height / 2,
 	},
 	5,
-	'black'
+	{ x: 2, y: 2 } 
 );
+('black');
 
 class Sprite {
 	constructor(position) {
@@ -137,6 +158,10 @@ function animate() {
 	} else if (keys.ArrowUp.pressed) {
 		moveUp2();
 	}
+
+	ball.position.x += ball.velocity.x;
+	ball.position.y += ball.velocity.y;
+
 	drawnet();
 	ball.draw();
 }
@@ -172,7 +197,6 @@ window.addEventListener('keyup', (event) => {
 function moveDown(player) {
 	if (isMoving) {
 		player.position.y += 2;
-		animate();
 		setTimeout(() => moveDown(player), 16);
 	}
 }
@@ -180,7 +204,6 @@ function moveDown(player) {
 function moveDown2(player2) {
 	if (isMoving) {
 		player2.position.y += 2;
-		animate();
 		setTimeout(() => moveDown2(player2), 16);
 	}
 }
@@ -188,7 +211,6 @@ function moveDown2(player2) {
 function moveUp(player) {
 	if (isMoving) {
 		player.position.y -= 2;
-		animate();
 		setTimeout(() => moveUp(player), 16);
 	}
 }
@@ -196,7 +218,6 @@ function moveUp(player) {
 function moveUp2(player2) {
 	if (isMoving) {
 		player2.position.y -= 2;
-		animate();
 		setTimeout(() => moveUp2(player2), 16);
 	}
 }
