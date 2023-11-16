@@ -1,12 +1,21 @@
 const canvas = document.querySelector('#board');
 
+const ball = document.getElementById('ball');
+
 const c = canvas.getContext('2d');
+
+const net = {
+	x: canvas.width / 2 - 2 / 2,
+	y: 0,
+	width: 2,
+	height: 10,
+	color: 'turquoise',
+};
 
 const backgroundImage = new Image();
 backgroundImage.src = 'atarilogo2.jpg';
 
 backgroundImage.onload = function () {
-	// Draw the background image
 	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
@@ -17,7 +26,7 @@ class Sprite {
 		this.position = position;
 	}
 	draw() {
-		c.fillStyle = 'purple';
+		c.fillStyle = 'orange';
 		c.fillRect(this.position.x, this.position.y, 15, 30);
 	}
 }
@@ -43,17 +52,21 @@ const keys = {
 	},
 	e: {
 		pressed: false,
-    },
-    ArrowUp: {
-        pressed: false,
-    },
-    ArrowDown: {
-        pressed: false,
-    }
+	},
+	ArrowUp: {
+		pressed: false,
+	},
+	ArrowDown: {
+		pressed: false,
+	},
 };
 
-
-
+function drawnet() {
+    for (let i = 0; i <= canvas.height; i += 15) {
+        c.fillStyle = net.color;
+        c.fillRect(net.x, net.y + i, net.width, net.height);
+    }
+}
 
 function animate() {
 	window.requestAnimationFrame(animate);
@@ -74,7 +87,8 @@ function animate() {
 		moveDown2();
 	} else if (keys.ArrowUp.pressed) {
 		moveUp2();
-	}
+    }
+    drawnet()
 }
 
 animate();
@@ -90,10 +104,10 @@ window.addEventListener('keydown', (event) => {
 				moveUp(player);
 				break;
 			case 'ArrowUp':
-				moveUp2();
+				moveUp2(player2);
 				break;
 			case 'ArrowDown':
-				moveDown2();
+				moveDown2(player2);
 				break;
 		}
 	}
@@ -117,7 +131,7 @@ function moveDown2(player2) {
 	if (isMoving) {
 		player2.position.y += 2;
 		animate();
-		setTimeout(moveDown2, 16);
+		setTimeout(() => moveDown2(player2), 16);
 	}
 }
 
@@ -133,6 +147,6 @@ function moveUp2(player2) {
 	if (isMoving) {
 		player2.position.y -= 2;
 		animate();
-		setTimeout(moveUp2, 16);
+		setTimeout(() => moveUp2(player2), 16);
 	}
 }
