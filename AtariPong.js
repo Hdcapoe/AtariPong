@@ -15,22 +15,38 @@ const scoreboard = {
 	player2: 0,
 };
 
+// shows the score
+
 const scoreDisplayPlayer1 = document.createElement('div');
+
 scoreDisplayPlayer1.style.position = 'absolute';
+
 scoreDisplayPlayer1.style.left = '50px';
+
 scoreDisplayPlayer1.style.top = '50px';
+
 scoreDisplayPlayer1.style.fontSize = '50px';
+
 scoreDisplayPlayer1.style.fontWeight = 'bold';
+
 scoreDisplayPlayer1.style.color = 'white';
+
 document.body.appendChild(scoreDisplayPlayer1);
 
 const scoreDisplayPlayer2 = document.createElement('div');
+
 scoreDisplayPlayer2.style.position = 'absolute';
+
 scoreDisplayPlayer2.style.right = '50px';
+
 scoreDisplayPlayer2.style.top = '50px';
+
 scoreDisplayPlayer2.style.fontSize = '50px';
+
 scoreDisplayPlayer2.style.fontWeight = 'bold';
+
 scoreDisplayPlayer2.style.color = 'white';
+
 document.body.appendChild(scoreDisplayPlayer2);
 
 const backgroundImage = new Image();
