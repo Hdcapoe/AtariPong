@@ -65,6 +65,7 @@ class Ball {
 		c.closePath();
 		c.fill();
 
+        
 		if (
 			this.position.y - this.radius < 0 ||
 			this.position.y + this.radius > canvas.height
@@ -93,7 +94,9 @@ class Ball {
 			this.position.y - this.radius <= player2.position.y + 30
 		) {
 			this.velocity.x = -this.velocity.x;
-		}
+        }
+        
+        
 	}
 }
 
@@ -154,144 +157,149 @@ function drawnet() {
 	}
 }
 
-
-
 let spacebarPressed = false;
 
 function startGame() {
-    ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
-    ball.velocity = { x: 2, y: 2 };
-
+	ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
+	ball.velocity = { x: 2, y: 2 };
 }
-
-
 
 function animate() {
-    window.requestAnimationFrame(animate);
-    c.clearRect(0, 0, canvas.width, canvas.height);
+	window.requestAnimationFrame(animate);
+	c.clearRect(0, 0, canvas.width, canvas.height);
 
-    c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
-    player.draw();
-    player2.draw();
-    
+	player.draw();
+	player2.draw();
 
-    if (keys.d.pressed) {
-        player.position.y = 3;
-    } else if (keys.e.pressed) {
-        player.position.y = -3;
-    }
+	if (keys.d.pressed) {
+		player.position.y = 3;
+	} else if (keys.e.pressed) {
+		player.position.y = -3;
+	}
 
-    if (keys.ArrowDown.pressed) {
-        moveDown2();
-    } else if (keys.ArrowUp.pressed) {
-        moveUp2();
-    }
+	if (keys.ArrowDown.pressed) {
+		moveDown2();
+	} else if (keys.ArrowUp.pressed) {
+		moveUp2();
+	}
 
-    ball.position.x += ball.velocity.x;
-    ball.position.y += ball.velocity.y;
+	ball.position.x += ball.velocity.x;
+	ball.position.y += ball.velocity.y;
 
-    drawnet();
-    ball.draw();
+	drawnet();
+	ball.draw();
 
-    if (ball.position.x - ball.radius < 0) {
-        scoreboard.player2++;
-        resetBall();
-    }
+	if (ball.position.x - ball.radius < 0) {
+		scoreboard.player2++;
+		resetBall();
+	}
 
-    if (ball.position.x + ball.radius > canvas.width) {
-        scoreboard.player++;
-        resetBall();
-    }
-    scoreDisplayPlayer1.textContent = `Player 1: ${scoreboard.player}`;
-    scoreDisplayPlayer2.textContent = `Player 2: ${scoreboard.player2}`;
+	if (ball.position.x + ball.radius > canvas.width) {
+		scoreboard.player++;
+		resetBall();
+	}
+	scoreDisplayPlayer1.textContent = `Player 1: ${scoreboard.player}`;
+	scoreDisplayPlayer2.textContent = `Player 2: ${scoreboard.player2}`;
 
-    function resetBall() {
-        ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
-        ball.velocity = { x: 2, y: 2 };
-    }
+	function resetBall() {
+		ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
+		ball.velocity = { x: 2, y: 2 };
+	}
+
+	if (scoreboard.player === 5) {
+		// Player 1 wins
+		alert('Player 1 wins!');
+		resetGame();
+		return; // Stop the game loop
+	} else if (scoreboard.player2 === 5) {
+		// Player 2 wins
+		alert('Player 2 wins!');
+		resetGame();
+		return; // Stop the game loop
+
+		c.clearRect(0, 0, canvas.width, canvas.height);
+	}
 }
 
-	animate();
+animate();
 
-	window.addEventListener('keydown', (event) => {
-		if (!isMoving) {
-			isMoving = true;
-			switch (event.key) {
-				case 'd':
-					moveDown(player);
-					break;
-				case 'e':
-					moveUp(player);
-					break;
-				case 'ArrowUp':
-					moveUp2(player2);
-					break;
-				case 'ArrowDown':
-					moveDown2(player2);
-					break;
-			}
-		}
-	});
-
-	window.addEventListener('keyup', (event) => {
-		if (['e', 'd', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
-			isMoving = false;
-		}
-	});
-
-	function moveDown(player) {
-		if (isMoving) {
-			player.position.y += 3;
-
-			if (player.position.y > canvas.height) {
-				player.position.y = -30;
-			}
-
-			setTimeout(() => moveDown(player), 16);
+window.addEventListener('keydown', (event) => {
+	if (!isMoving) {
+		isMoving = true;
+		switch (event.key) {
+			case 'd':
+				moveDown(player);
+				break;
+			case 'e':
+				moveUp(player);
+				break;
+			case 'ArrowUp':
+				moveUp2(player2);
+				break;
+			case 'ArrowDown':
+				moveDown2(player2);
+				break;
 		}
 	}
+});
 
-	function moveUp(player) {
-		if (isMoving) {
-			player.position.y -= 3;
+window.addEventListener('keyup', (event) => {
+	if (['e', 'd', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+		isMoving = false;
+	}
+});
 
-			if (player.position.y + 30 < 0) {
-				player.position.y = canvas.height;
-			}
+function moveDown(player) {
+	if (isMoving) {
+		player.position.y += 3;
 
-			setTimeout(() => moveUp(player), 16);
+		if (player.position.y > canvas.height) {
+			player.position.y = -30;
 		}
+
+		setTimeout(() => moveDown(player), 16);
 	}
+}
 
-	function moveDown2(player2) {
-		if (isMoving) {
-			player2.position.y += 3;
+function moveUp(player) {
+	if (isMoving) {
+		player.position.y -= 3;
 
-			if (player2.position.y > canvas.height) {
-				player2.position.y = -30;
-			}
-
-			setTimeout(() => moveDown2(player2), 16);
+		if (player.position.y + 30 < 0) {
+			player.position.y = canvas.height;
 		}
+
+		setTimeout(() => moveUp(player), 16);
 	}
+}
 
-	function moveUp2(player2) {
-		if (isMoving) {
-			player2.position.y -= 3;
+function moveDown2(player2) {
+	if (isMoving) {
+		player2.position.y += 3;
 
-			if (player2.position.y + 30 < 0) {
-				player2.position.y = canvas.height;
-			}
-
-			setTimeout(() => moveUp2(player2), 16);
+		if (player2.position.y > canvas.height) {
+			player2.position.y = -30;
 		}
+
+		setTimeout(() => moveDown2(player2), 16);
 	}
+}
 
-	function resetGame() {
-		scoreboard.player = 0;
-		scoreboard.player2 = 0;
+function moveUp2(player2) {
+	if (isMoving) {
+		player2.position.y -= 3;
+
+		if (player2.position.y + 30 < 0) {
+			player2.position.y = canvas.height;
+		}
+
+		setTimeout(() => moveUp2(player2), 16);
 	}
+}
 
-
-
+function resetGame() {
+	scoreboard.player = 0;
+	scoreboard.player2 = 0;
+}
