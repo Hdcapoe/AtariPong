@@ -157,7 +157,6 @@ function drawnet() {
 	}
 }
 
-let spacebarPressed = false;
 
 function startGame() {
 	ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
