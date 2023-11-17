@@ -56,6 +56,7 @@ const resetButton = document.getElementById('resetButton');
 
 resetButton.addEventListener('click', resetGame);
 
+// Callback when the background image is loaded
 backgroundImage.onload = function () {
 	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
@@ -126,10 +127,12 @@ const ball = new Ball(
 );
 ('black');
 
+// Class to make paddles
 class Sprite {
 	constructor(position) {
 		this.position = position;
 	}
+	// Method to draw paddles
 	draw() {
 		c.fillStyle = 'orange';
 		c.fillRect(this.position.x, this.position.y, 15, 30);
@@ -151,6 +154,7 @@ player2.draw();
 
 let isMoving = false;
 
+// Object of game buttons
 const keys = {
 	d: {
 		pressed: false,
@@ -166,6 +170,7 @@ const keys = {
 	},
 };
 
+// Making the net
 function drawnet() {
 	for (let i = 0; i <= canvas.height; i += 15) {
 		c.fillStyle = net.color;
@@ -179,9 +184,11 @@ function startGame() {
 	ball.velocity = { x: 2, y: 2 };
 }
 
+
+// Animation loop
 function animate() {
 	window.requestAnimationFrame(animate);
-	c.clearRect(0, 0, canvas.width, canvas.height);
+	c.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for gthe next frame
 
 	c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
