@@ -30,7 +30,8 @@ A classic Pong game with an Atari twist! This game is built using HTML, CSS, and
 
 -  Vanilla JavaScript
 
-## Credits
+## Deploy link
+https://hdcapoe.github.io/AtariPong/
 
 
 ## Issues
