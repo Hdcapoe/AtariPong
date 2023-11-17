@@ -154,6 +154,28 @@ function drawnet() {
 	}
 }
 
+
+
+let spacebarPressed = false;
+
+function startGame() {
+    // Initialize the ball in the middle
+    ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
+    ball.velocity = { x: 2, y: 2 };
+
+    // Start the animation loop
+    animate();
+}
+
+// Add event listener for spacebar press
+window.addEventListener('keydown', (event) => {
+    if (event.key === ' ' && !spacebarPressed) {
+        spacebarPressed = true;
+        startGame();
+    }
+});
+
+
 function animate() {
     window.requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -162,6 +184,8 @@ function animate() {
 
     player.draw();
     player2.draw();
+
+    
 
     if (keys.d.pressed) {
         player.position.y = 3;
@@ -281,12 +305,4 @@ function animate() {
 	}
 
 
-let spacebarPressed = false;
-
-window.addEventListener('keydown'), (event) => {
-    if (event.key === ' ' && !spacebarPressed) {
-        spacebarPressed = true;
-        startGame();
-    }
-};
 
