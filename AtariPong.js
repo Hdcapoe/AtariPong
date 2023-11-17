@@ -7,7 +7,7 @@ const net = {
 	y: 0,
 	width: 2,
 	height: 10,
-	color: 'turquoise',
+	color: 'green',
 };
 
 const scoreboard = {
