@@ -159,7 +159,6 @@ function drawnet() {
 let spacebarPressed = false;
 
 function startGame() {
-    // Initialize the ball in the middle
     ball.position = { x: canvas.width / 2, y: canvas.height / 2 };
     ball.velocity = { x: 2, y: 2 };
 
