@@ -207,12 +207,13 @@ function animate() {
 		moveUp2();
 	}
 
-	ball.position.x += ball.velocity.x;
+	ball.position.x += ball.velocity.x;// Updates the position
 	ball.position.y += ball.velocity.y;
 
 	drawnet();
 	ball.draw();
 
+	// To see if the goes out and score
 	if (ball.position.x - ball.radius < 0) {
 		scoreboard.player2++;
 		resetBall();
