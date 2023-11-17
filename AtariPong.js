@@ -306,7 +306,7 @@ function moveDown2(player2) {
 			player2.position.y = -30;
 		}
 
-		setTimeout(() => moveDown2(player2), 16);
+		setTimeout(() => moveDown2(player2), 16); // creates the wrap around effect
 	}
 }
 
