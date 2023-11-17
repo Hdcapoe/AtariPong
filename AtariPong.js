@@ -246,6 +246,7 @@ function animate() {
 	}
 }
 
+// Starts the game loop
 animate();
 
 window.addEventListener('keydown', (event) => {
